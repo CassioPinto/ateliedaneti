@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ateliê da Neti</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="header"></div>
+
+    <main>
+        <section class="carousel">
+            <button class="carousel-prev">❮</button> <!-- Previous arrow -->
+            <div class="carousel-inner">
+                <img src="/images/carousel/banner-1" alt="Imagem 1" class="carousel-item">
+                <img src="/images/carousel/banner-2" alt="Imagem 2" class="carousel-item">
+                <img src="/images/carousel/banner-3" alt="Imagem 3" class="carousel-item">
+            </div>
+            <button class="carousel-next">❯</button> <!-- Next arrow -->
+        </section>
+
+        <div class="conheca-catalogo">
+            <a href="/catalog" class="btn">Conheça nossas criações</a>
+        </div>
+    </main>
+
+    <div id="floating-button"></div>
+    <div id="footer"></div>
+
+    <script src="index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#header").load("header.html");
+            $("#floating-button").load("floatingButton.html");
+            $("#footer").load("footer.html");
+        });
+      </script>
+</body>
+</html>

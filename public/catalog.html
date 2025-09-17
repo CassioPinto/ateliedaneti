@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo - Ateliê da Neti</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="header"></div>
+
+  <main>
+    <section class="catalog">
+      <div class="nossas-criacoes-title">
+        <h2>Nossas Criações</h2>
+        <p>Conheça nossos enxovais de bebê, kits berço e outros itens feitos à mão.</p>
+        <!-- <p>Clique em "Orçamento no WhatsApp" para personalizar o seu!</p> -->
+      </div>
+      <div class="grid">
+        <div class="item" data-category="kits-de-berco">
+          <img src="" alt="Kits de Berço">
+          <h3>Kits de Berço</h3>
+          <p>Conjuntos de berço com bordados delicados para o bebê.</p>
+        </div>
+        <div class="item" data-category="enxovais-de-bebe">
+          <img src="" alt="Enxovais de Bebê">
+          <h3>Enxovais de Bebê</h3>
+          <p>Enxovais completos com tecidos macios e hipoalergênicos.</p>
+        </div>
+        <div class="item" data-category="panos-bordados">
+          <img src="" alt="Panos Bordados">
+          <h3>Panos Bordados</h3>
+          <p>Panos bordados para um toque especial no dia a dia.</p>
+        </div>
+        <div class="item" data-category="cobertores-de-bebe">
+          <img src="" alt="Cobertores de Bebê">
+          <h3>Cobertores de Bebê</h3>
+          <p>Cobertores quentinhos e personalizados para o seu bebê.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="floating-button"></div>
+  <div id="footer"></div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $("#header").load("header.html");
+        $("#floating-button").load("floatingButton.html");
+        $("#footer").load("footer.html");
+
+        $(".item").click(function() {
+          const category = $(this).data("category");
+          window.location.href = `/category?category=${category}`;
+      });
+
+      $.get('/api/catalog-images', function(data) {
+        $('[data-category="kits-de-berco"] img').attr('src', data['kits-de-berco']);
+        $('[data-category="enxovais-de-bebe"] img').attr('src', data['enxovais-de-bebe']);
+        $('[data-category="panos-bordados"] img').attr('src', data['panos-bordados']);
+        $('[data-category="cobertores-de-bebe"] img').attr('src', data['cobertores-de-bebe']);
+      }).fail(function(err) {
+        console.error('Error fetching images:', err);
+      });
+    });
+  </script>
+</body>
+</html>

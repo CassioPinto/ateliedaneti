@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: white;
+}
+
+header {
+    color: white;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+nav .logo {
+    height: 160px;
+    width: auto;
+}
+
+nav h1 {
+    font-family: 'Georgia', serif;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav li {
+    margin-left: 2rem;
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav li:nth-child(1) a:hover, nav li:nth-child(2) a:hover {
+    background: #FFFACD;
+}
+
+nav li:last-child a {
+    background: #32CD32;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+nav li:last-child a:hover {
+    background: #228B22;
+}
+
+main .catalog, main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+main .catalog .nossas-criacoes-title {
+    border-radius: 5rem;
+    background: #FFFACD;
+}
+
+.carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.carousel-inner {
+    display: flex;
+    width: 300%; /* 3 imagens */
+    transition: transform 0.5s ease-in-out; /* 5 segundos por imagem */
+}
+
+/* Arrow button styles */
+.carousel-prev,
+.carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 5px;
+}
+
+.carousel-prev {
+    left: 10px; /* Position inside the left edge of the carousel */
+}
+
+.carousel-next {
+    right: 10px; /* Position inside the right edge of the carousel */
+}
+
+.carousel-item {
+    width: 33.333%; /* Cada imagem ocupa 1/3 do carrossel */
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    background: rgba(0, 0, 0, 0.8); /* Darker on hover */
+}
+
+/* Pause animation on hover */
+.carousel:hover .carousel-inner {
+    animation-play-state: paused;
+}
+
+.conheca-catalogo {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    background: #32CD32;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #228B22;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.item, .catalog-item {
+    background: #FFFACD;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item:hover {
+    cursor: pointer;
+    background: #fff280;
+}
+
+.catalog-item img:hover {
+    cursor: pointer;
+}
+
+.item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.catalog-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.item h3 {
+    color: #4682B4;
+    margin-bottom: 0.5rem;
+}
+
+footer {
+    background: #f5f8c4;
+    color: black;
+    padding: 1rem;
+}
+
+footer p{
+    margin-bottom: 1rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.footer-address {
+    text-align: left;
+}
+
+footer .logo {
+    height: 320px;
+    width: auto;
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90vh; /* Limit height to viewport */
+    width: auto;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.floating-button a {
+    position: fixed;
+    bottom: 80px; /* Distance from the bottom of the viewport */
+    right: 60px; /* Distance from the right of the viewport */
+    padding: 0.75rem 1.5rem;
+    display: inline-block;
+    background: #308130;
+    color: white;
+    text-decoration: none;
+    border-radius: 300px;
+    margin-top: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    z-index: 1000; /* Ensure button stays above other content */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.floating-button a:hover {
+    background-color: #47ca47; /* Darker background on hover */
+    transform: scale(1.1); /* Slightly enlarge button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+}
+
+.floating-button a img {
+    width: 20px;
+    height: 20px;
+    background: transparent !important;
+}
+
+@keyframes slide {
+    0% { transform: translateX(0); } /* Show first image */
+    33.33% { transform: translateX(0); } /* Hold first image */
+    33.34% { transform: translateX(-33.333%); } /* Move to second image */
+    66.66% { transform: translateX(-33.333%); } /* Hold second image */
+    66.67% { transform: translateX(-66.666%); } /* Move to third image */
+    100% { transform: translateX(-66.666%); } /* Hold third image */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+    nav ul {
+        margin-top: 1rem;
+    }
+    nav li {
+        margin: 0 1rem;
+    }
+    .carousel {
+        max-width: 100%;
+    }
+    .carousel-inner {
+        width: 300%;
+    }
+    .carousel-item {
+        height: 200px;
+    }
+    .carousel-prev,
+    .carousel-next {
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-address {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    nav .logo {
+        height: 100px;
+    }
+    .carousel-item {
+        height: 150px;
+    }
+    footer .logo {
+        height: 200px;
+    }
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+    .item img, .catalog-item img {
+        height: 200px;
+    }
+    body {
+        font-size: 16px;
+    }
+}
