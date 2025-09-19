@@ -58,6 +58,10 @@ nav a {
     font-weight: bold;
 }
 
+nav li:nth-child(1) a {
+    text-decoration: underline;
+}
+
 nav li:nth-child(1) a:hover, nav li:nth-child(2) a:hover, nav li:nth-child(3) a:hover {
     background: #fff280;
 }
@@ -93,6 +97,10 @@ main .catalog .nossas-criacoes-title {
 
 main .catalog .nossas-criacoes-text {
     padding: 1rem;
+}
+
+main .catalog .nossas-criacoes-text h2 {
+    margin-bottom: 1rem;
 }
 
 main .catalog .nossas-criacoes-text p {
@@ -247,7 +255,6 @@ main .catalog .nossas-criacoes-text p {
 
 .item h3 {
     color: #4682B4;
-    margin-bottom: 0.5rem;
 }
 
 footer {

@@ -38,8 +38,107 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/catalog', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'catalog.html'));
+// Route to render the catalog page
+app.get('/catalog', async (req, res) => {
+  try {
+    // Path to the images/catalog directory
+    const catalogDir = path.join(__dirname, 'public/images/catalog');
+
+    // Read the directories in /images/catalog/
+    const folders = await fs.readdir(catalogDir, { withFileTypes: true });
+    const categories = folders
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => {
+        // Format folder name for display (e.g., convert "kits-de-berco" to "Kits de Berço")
+        let formattedCategory = dirent.name.charAt(0).toUpperCase() + dirent.name.slice(1).replaceAll('-', ' ')
+
+        for (i in WORD_CONVERSION) {
+          if (formattedCategory.includes(i)) {
+            formattedCategory = formattedCategory.replaceAll(i, WORD_CONVERSION[i]);
+          }
+        }
+
+        formattedCategory = formattedCategory.split(' ');
+        formattedCategory[formattedCategory.length - 1] = formattedCategory[formattedCategory.length - 1].charAt(0).toUpperCase() + formattedCategory[formattedCategory.length - 1].slice(1);
+        formattedCategory = formattedCategory.join(' ');
+
+        return {
+          category: dirent.name,
+          displayName: formattedCategory,
+          description: `Conjuntos personalizados de ${formattedCategory.toLowerCase()} para o bebê.`
+        };
+      });
+
+    // Generate the grid HTML dynamically
+    const gridItems = categories
+      .map(category => `
+        <div class="item" data-category="${category.category}">
+          <img src="" alt="${category.displayName}">
+          <h3>${category.displayName}</h3>
+        </div>
+      `)
+      .join('');
+
+    // Full HTML response
+    const html = `
+      <!DOCTYPE html>
+      <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Catálogo - Ateliê da Neti</title>
+          <link rel="stylesheet" href="styles.css">
+        </head>
+        <body>
+          <div id="header"></div>
+          <main>
+            <section class="catalog">
+              <div class="nossas-criacoes-title">
+                <div class="nossas-criacoes-text">
+                  <h2>Criações da Neti</h2>
+                  <p>Chame a Neti no Whats para fazer o orçamento da sua personalização!</p>
+                </div>
+              </div>
+              <div class="grid">
+                ${gridItems}
+              </div>
+            </section>
+          </main>
+          <div id="floating-button"></div>
+          <div id="footer"></div>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          <script>
+            $(document).ready(function() {
+                $("#header").load("header.html");
+                $("#floating-button").load("floatingButton.html");
+                $("#footer").load("footer.html");
+                $(".item").click(function() {
+                  const category = $(this).data("category");
+                  window.location.href = '/category?category=' + category;
+              });
+              $.get('/api/catalog-images', function(data) {
+                // Query all elements with data-category and set their img src
+                $('[data-category]').each(function() {
+                  const category = $(this).data('category'); // Get the data-category value
+                  if (data[category]) { // Check if the category exists in the data object
+                    $(this).find('img').attr('src', data[category]); // Set the img src
+                  }
+                });
+              }).fail(function(err) {
+                console.error('Error fetching images:', err);
+              });
+            });
+          </script>
+        </body>
+      </html>
+    `;
+
+    // Send the HTML response
+    res.send(html);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error reading catalog directories');
+  }
 });
 
 // Dynamic category route
@@ -66,10 +165,7 @@ app.get('/category', async (req, res) => {
       .reverse()
       .filter(file => EXTENSIONS.some(ext => file.toLowerCase().endsWith(ext)))
       .map(file => ({
-        src: `/images/catalog/${category}/${file}`,
-        // alt: `${category} ${path.parse(file).name}`,
-        // title: `${category.charAt(0).toUpperCase() + category.slice(1)} ${path.parse(file).name}`,
-        // desc: `Detalhes do item ${path.parse(file).name}.`
+        src: `/images/catalog/${category}/${file}`
       }));
   } catch (error) {
     console.error(`Error reading directory ${folderPath}:`, error);
@@ -79,12 +175,12 @@ app.get('/category', async (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <html lang="pt-BR">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Criações - ${formattedCategory} - Ateliê da Neti</title>
-      <link rel="stylesheet" href="/styles.css">
-    </head>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Criações - ${formattedCategory} - Ateliê da Neti</title>
+        <link rel="stylesheet" href="/styles.css">
+      </head>
       <body>
         <div id="header"></div>
         <main>
