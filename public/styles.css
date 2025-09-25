@@ -95,14 +95,6 @@ main .catalog .nossas-criacoes-title {
     padding: 1rem;
 }
 
-main .catalog .nossas-criacoes-text {
-    padding: 1rem;
-}
-
-main .catalog .nossas-criacoes-text h2 {
-    margin-bottom: 1rem;
-}
-
 main .catalog .nossas-criacoes-text p {
     font: menu;
     font-size: large;
@@ -150,7 +142,7 @@ main .catalog .nossas-criacoes-text p {
 .carousel-item {
     width: 33.333%; /* Cada imagem ocupa 1/3 do carrossel */
     height: 500px;
-    object-fit: cover;
+    object-fit: cover
 }
 
 .carousel-prev:hover,

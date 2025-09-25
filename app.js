@@ -6,7 +6,8 @@ const PORT = 3000;
 const EXTENSIONS = ['.webp', '.jpg', '.png', '.jpeg'];
 const WORD_CONVERSION = {
   'berco': 'berço',
-  'bebe': 'bebê'
+  'bebe': 'bebê',
+  'colecao': 'coleção'
 };
 
 // Serve static files from the 'public' directory
@@ -33,6 +34,22 @@ app.use(async (req, res, next) => {
   next(); // If no file is found, proceed to the next middleware or 404
 });
 
+function formatCategory(unformattedCategory) {
+  let formattedCategory = unformattedCategory;
+
+  for (i in WORD_CONVERSION) {
+    if (formattedCategory.includes(i)) {
+      formattedCategory = formattedCategory.replaceAll(i, WORD_CONVERSION[i]);
+    }
+  }
+
+  formattedCategory = formattedCategory.split(' ').map(word => {
+    return word.length > 2 ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+  }).join(' ');
+
+  return formattedCategory;
+}
+
 // Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -49,18 +66,8 @@ app.get('/catalog', async (req, res) => {
     const categories = folders
       .filter(dirent => dirent.isDirectory())
       .map(dirent => {
-        // Format folder name for display (e.g., convert "kits-de-berco" to "Kits de Berço")
-        let formattedCategory = dirent.name.charAt(0).toUpperCase() + dirent.name.slice(1).replaceAll('-', ' ')
 
-        for (i in WORD_CONVERSION) {
-          if (formattedCategory.includes(i)) {
-            formattedCategory = formattedCategory.replaceAll(i, WORD_CONVERSION[i]);
-          }
-        }
-
-        formattedCategory = formattedCategory.split(' ');
-        formattedCategory[formattedCategory.length - 1] = formattedCategory[formattedCategory.length - 1].charAt(0).toUpperCase() + formattedCategory[formattedCategory.length - 1].slice(1);
-        formattedCategory = formattedCategory.join(' ');
+        let formattedCategory = formatCategory(dirent.name);
 
         return {
           category: dirent.name,
@@ -95,7 +102,7 @@ app.get('/catalog', async (req, res) => {
             <section class="catalog">
               <div class="nossas-criacoes-title">
                 <div class="nossas-criacoes-text">
-                  <h2>Criações da Neti</h2>
+                  <h2>Catálogo</h2>
                   <p>Chame a Neti no Whats para fazer o orçamento da sua personalização!</p>
                 </div>
               </div>
@@ -144,17 +151,8 @@ app.get('/catalog', async (req, res) => {
 // Dynamic category route
 app.get('/category', async (req, res) => {
   const category = req.query.category;
-  let formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).replaceAll('-', ' ')
 
-  for (i in WORD_CONVERSION) {
-    if (formattedCategory.includes(i)) {
-      formattedCategory = formattedCategory.replaceAll(i, WORD_CONVERSION[i]);
-    }
-  }
-
-  formattedCategory = formattedCategory.split(' ');
-  formattedCategory[formattedCategory.length - 1] = formattedCategory[formattedCategory.length - 1].charAt(0).toUpperCase() + formattedCategory[formattedCategory.length - 1].slice(1);
-  formattedCategory = formattedCategory.join(' ');
+  let formattedCategory = formatCategory(category);
 
   const folderPath = path.join(__dirname, 'public', 'images', 'catalog', category);
   let images = [];
@@ -178,7 +176,7 @@ app.get('/category', async (req, res) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Criações - ${formattedCategory} - Ateliê da Neti</title>
+        <title>Catálogo - ${formattedCategory} - Ateliê da Neti</title>
         <link rel="stylesheet" href="/styles.css">
       </head>
       <body>
@@ -186,7 +184,10 @@ app.get('/category', async (req, res) => {
         <main>
           <section class="catalog">
             <div class="nossas-criacoes-title">
-              <h2>${formattedCategory}</h2>
+              <div class="nossas-criacoes-text">
+                <h2>${formattedCategory}</h2>
+                <p>Chame a Neti no Whats para fazer o orçamento da sua personalização!</p>
+              </div>
             </div>
             <div class="grid">
               ${images.map(img => `
