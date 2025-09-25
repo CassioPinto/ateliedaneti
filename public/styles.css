@@ -349,16 +349,14 @@ footer .logo {
     100% { transform: translateX(-66.666%); } /* Hold third image */
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
+    main {
+        margin: 1rem;
+        text-align: center;
+    }
     nav {
         flex-direction: column;
-    }
-    nav ul {
-        margin-top: 1rem;
-    }
-    nav li {
-        margin: 0 1rem;
+        padding: 0;
     }
     .carousel {
         max-width: 100%;
@@ -374,6 +372,9 @@ footer .logo {
         padding: 0.5rem;
         font-size: 1rem;
     }
+    .about-neti-image {
+        display: none;
+    }
     .footer-content {
         flex-direction: column;
         text-align: center;
@@ -384,26 +385,5 @@ footer .logo {
     }
     .grid {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
-    }
-}
-
-@media (max-width: 480px) {
-    nav .logo {
-        height: 100px;
-    }
-    .carousel-item {
-        height: 150px;
-    }
-    footer .logo {
-        height: 200px;
-    }
-    .grid {
-        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
-    }
-    .item img, .catalog-item img {
-        height: 200px;
-    }
-    body {
-        font-size: 16px;
     }
 }
