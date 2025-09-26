@@ -17,7 +17,8 @@ app.use(async (req, res, next) => {
     console.log('Middleware');
     console.log('__dirname', __dirname);
 
-    const filePath = path.join(req.path);
+    const filePath = 'images/carousel/vestidos';
+    // const filePath = path.join(req.path);
 
     console.log('filePath', filePath);
 
