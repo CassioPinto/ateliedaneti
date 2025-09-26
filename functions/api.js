@@ -12,29 +12,50 @@ const WORD_CONVERSION = {
 };
 
 // Middleware for extensionless image requests
-app.use(async (req, res, next) => {
+// app.use(async (req, res, next) => {
 
+//     console.log('Middleware');
+//     console.log('__dirname', __dirname);
+
+//     const filePath = '/var/task/images/carousel/vestidos';
+//     // const filePath = path.join(req.path);
+
+//     console.log('filePath', filePath);
+
+//   if (!path.extname(req.path)) {
+//     for (const ext of EXTENSIONS) {
+//       try {
+//         const fullPath = filePath + ext;
+//         await fs.access(fullPath);
+//         return res.redirect(req.path + ext);
+//       } catch (err) {
+//         continue;
+//       }
+//     }
+//   }
+//   next();
+// });
+
+app.use(async (req, res, next) => {
     console.log('Middleware');
     console.log('__dirname', __dirname);
-
-    const filePath = '/var/task/images/carousel/vestidos';
-    // const filePath = path.join(req.path);
-
+    const filePath = path.join(__dirname, '../images', req.path); // Correct path to root images
     console.log('filePath', filePath);
-
-  if (!path.extname(req.path)) {
-    for (const ext of EXTENSIONS) {
-      try {
-        const fullPath = filePath + ext;
-        await fs.access(fullPath);
-        return res.redirect(req.path + ext);
-      } catch (err) {
-        continue;
+    if (!path.extname(req.path)) {
+      for (const ext of EXTENSIONS) {
+        try {
+          const fullPath = filePath + ext;
+          await fs.access(fullPath);
+          console.log('Redirecting to:', '/images' + req.path + ext); // Full path for redirect
+          return res.redirect(301, '/images' + req.path + ext); // Ensure full URL
+        } catch (err) {
+          console.log('File not found:', fullPath, err.message);
+          continue;
+        }
       }
     }
-  }
-  next();
-});
+    next();
+  });
 
 function formatCategory(unformattedCategory) {
   let formattedCategory = unformattedCategory;
