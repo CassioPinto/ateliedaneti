@@ -17,7 +17,7 @@ app.use(async (req, res, next) => {
     console.log('Middleware');
     console.log('__dirname', __dirname);
 
-    const filePath = path.join('images/', req.path);
+    const filePath = path.join(req.path);
 
     console.log('filePath', filePath);
 
