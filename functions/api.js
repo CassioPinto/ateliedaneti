@@ -15,8 +15,12 @@ const WORD_CONVERSION = {
 app.use(async (req, res, next) => {
 
     console.log('Middleware');
+    console.log('__dirname', __dirname);
+    
+    const filePath = path.join(__dirname, '../images', req.path);
 
-  const filePath = path.join(__dirname, '../images', req.path);
+    console.log('filePath', filePath);
+
   if (!path.extname(req.path)) {
     for (const ext of EXTENSIONS) {
       try {
