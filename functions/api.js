@@ -17,7 +17,7 @@ app.use(async (req, res, next) => {
     console.log('Middleware');
     console.log('__dirname', __dirname);
 
-    const filePath = path.join(req.path);
+    const filePath = path.join(__dirname, req.path);
 
     console.log('filePath', filePath);
 
@@ -51,7 +51,7 @@ function formatCategory(unformattedCategory) {
 // Copy your /catalog, /category, and /api/catalog-images routes from app.js
 app.get('/catalog', async (req, res) => {
   try {
-    const catalogDir = path.join('../images/catalog');
+    const catalogDir = path.join(__dirname, '../images/catalog');
     const folders = await fs.readdir(catalogDir, { withFileTypes: true });
     const categories = folders
       .filter(dirent => dirent.isDirectory())
@@ -130,7 +130,7 @@ app.get('/catalog', async (req, res) => {
 app.get('/category', async (req, res) => {
   const category = req.query.category;
   const formattedCategory = formatCategory(category);
-  const folderPath = path.join('../images/catalog', category);
+  const folderPath = path.join(__dirname, '../images/catalog', category);
   let images = [];
 
   try {
@@ -195,7 +195,7 @@ app.get('/category', async (req, res) => {
 
 app.get('/api/catalog-images', async (req, res) => {
   try {
-    const catalogPath = path.join('../images/catalog');
+    const catalogPath = path.join(__dirname, '../images/catalog');
     const categories = await fs.readdir(catalogPath);
     const categoryImages = {};
 
