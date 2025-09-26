@@ -13,7 +13,7 @@ const WORD_CONVERSION = {
 
 // Middleware for extensionless image requests
 app.use(async (req, res, next) => {
-  const filePath = path.join(__dirname, '../images', req.path);
+  const filePath = path.join(__dirname, '/images', req.path);
   if (!path.extname(req.path)) {
     for (const ext of EXTENSIONS) {
       try {
@@ -44,7 +44,7 @@ function formatCategory(unformattedCategory) {
 // Copy your /catalog, /category, and /api/catalog-images routes from app.js
 app.get('/catalog', async (req, res) => {
   try {
-    const catalogDir = path.join(__dirname, '../images/catalog');
+    const catalogDir = path.join(__dirname, '/images/catalog');
     const folders = await fs.readdir(catalogDir, { withFileTypes: true });
     const categories = folders
       .filter(dirent => dirent.isDirectory())
@@ -123,7 +123,7 @@ app.get('/catalog', async (req, res) => {
 app.get('/category', async (req, res) => {
   const category = req.query.category;
   const formattedCategory = formatCategory(category);
-  const folderPath = path.join(__dirname, '../images/catalog', category);
+  const folderPath = path.join(__dirname, '/images/catalog', category);
   let images = [];
 
   try {
@@ -188,7 +188,7 @@ app.get('/category', async (req, res) => {
 
 app.get('/api/catalog-images', async (req, res) => {
   try {
-    const catalogPath = path.join(__dirname, '../images/catalog');
+    const catalogPath = path.join(__dirname, '/images/catalog');
     const categories = await fs.readdir(catalogPath);
     const categoryImages = {};
 
