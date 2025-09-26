@@ -13,6 +13,9 @@ const WORD_CONVERSION = {
 
 // Middleware for extensionless image requests
 app.use(async (req, res, next) => {
+
+    console.log('Middleware');
+
   const filePath = path.join(__dirname, '../images', req.path);
   if (!path.extname(req.path)) {
     for (const ext of EXTENSIONS) {
